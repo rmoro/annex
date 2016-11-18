@@ -1,6 +1,6 @@
 #////////////////////////////////////////////////////////////////////////////////
-# AUTHOR:   Robert Morouney
-# EMAIL:    robert@morouney.com 
+# AUTHOR:   Robert Morouney, David Rusu
+# EMAIL:    robert@morouney.com, davidrusu.me@gmail.com
 # FILE:     README.md
 # CREATED:  2016-11-18 13:01:25
 # MODIFIED: 2016-11-18 13:01:26
