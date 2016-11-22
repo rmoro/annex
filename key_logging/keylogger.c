@@ -26,17 +26,20 @@ int main (int argc, const char * argv[]) {
   CFRunLoopSourceRef runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventTap, 0);
   CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopCommonModes);
   CGEventTapEnable(eventTap, true);
+
+  logFile = fopen(logFileName, "a");
   
   CFRunLoopRun();
   return 0;
 }
 
 uint64_t current_timestamp() {
-  struct timeval te;
+  struct timeval te; 
   gettimeofday(&te, NULL);
   uint64_t milliseconds = te.tv_sec*1000LL + te.tv_usec/1000;
   return milliseconds;
 }
+
 
 CGEventRef myCGEventCallback (CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon) {
   if ((type != kCGEventKeyDown) && (type != kCGEventFlagsChanged)) {
