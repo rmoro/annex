@@ -1,38 +1,11 @@
-#!/usr/bin/python3
-#
-# pyxhook -- an extension to emulate some of the PyHook library on linux.
-#
-#    Copyright (C) 2008 Tim Alexander <dragonfyre13@gmail.com>
-#    Ported to python3 by Denis Chevalier <chevalierdenis@gmx.com>
-#
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program; if not, write to the Free Software
-#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-#
-#    Thanks to Alex Badea <vamposdecampos@gmail.com> for writing the Record
-#    demo for the xlib libraries. It helped me immensely working with these
-#    in this library.
-#
-#    Thanks to the python-xlib team. This wouldn't have been possible without
-#    your code.
-#    
-#    This requires: 
-#    at least python-xlib 1.4
-#    xwindows must have the "record" extension present, and active.
-#    
-#    This file has now been somewhat extensively modified by 
-#    Daniel Folkinshteyn <nanotube@users.sf.net>
-#    So if there are any bugs, they are probably my fault. :)
+#//////////////////////////////////////////////////////////////////
+# AUTHOR:   Robert Morouney
+# EMAIL:    robert@morouney.com 
+# FILE:     pyhooks.py
+# CREATED:  2016-11-22 16:03:46
+# MODIFIED: 2016-11-22 16:20:34
+#//////////////////////////////////////////////////////////////////
+
 
 import sys
 import os
@@ -40,7 +13,7 @@ import re
 import time
 import threading
 
-from Xlib import X, XK, display
+from Xlib import X, XK, display, error
 from Xlib.ext import record
 from Xlib.protocol import rq
 
@@ -50,7 +23,6 @@ from Xlib.protocol import rq
 
 class HookManager(threading.Thread):
     """This is the main class. Instantiate it, and you can hand it KeyDown and KeyUp (functions in your own code) which execute to parse the pyxhookkeyevent class that is returned.
-
     This simply takes these two values for now:
     KeyDown = The function to execute when a key is pressed, if it returns anything. It hands the function an argument that is the pyxhookkeyevent class.
     KeyUp = The function to execute when a key is released, if it returns anything. It hands the function an argument that is the pyxhookkeyevent class.
@@ -87,8 +59,10 @@ class HookManager(threading.Thread):
     def run(self):
         # Check if the extension is present
         if not self.record_dpy.has_extension("RECORD"):
+            print "RECORD extension not found"
             sys.exit(1)
         r = self.record_dpy.record_get_version(0, 0)
+        print "RECORD extension version %d.%d" % (r.major_version, r.minor_version)
 
         # Create a recording context; we only want key and mouse events
         self.ctx = self.record_dpy.record_create_context(
@@ -118,7 +92,7 @@ class HookManager(threading.Thread):
         self.local_dpy.flush()
     
     def printevent(self, event):
-        print (event)
+        print event
     
     def HookKeyboard(self):
         pass
@@ -139,9 +113,9 @@ class HookManager(threading.Thread):
         if reply.category != record.FromServer:
             return
         if reply.client_swapped:
-            print ("* received swapped protocol data, cowardly ignored")
+            print "* received swapped protocol data, cowardly ignored"
             return
-        if not len(reply.data) or reply.data[0] < 2:
+        if not len(reply.data) or ord(reply.data[0]) < 2:
             # not an event
             return
         data = reply.data

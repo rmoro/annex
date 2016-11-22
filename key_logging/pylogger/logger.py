@@ -3,7 +3,7 @@
 # EMAIL:    robert@morouney.com 
 # FILE:     logger.py
 # CREATED:  2016-11-22 15:48:55
-# MODIFIED: 2016-11-22 16:30:03
+# MODIFIED: 2016-11-22 17:00:31
 #//////////////////////////////////////////////////////////////////
 import pyxhook
 import datetime
@@ -26,14 +26,14 @@ def OnKeyPress(event):
   flight_time = press_time - prev_time
   prev_time = press_time
 
-  flight_time_ms = (flight_time.seconds * 1000) + (flight_time.microseconds / 1000) 
+  #flight_time_ms = (flight_time.seconds * 1000) + (flight_time.microseconds / 1000) 
+  flight_time_ms = flight_time.total_seconds() * 1000
   
   fob=open(log_file,'a')
   fob.write('{},{}\n'.format(event.Ascii, int(flight_time_ms)))
+  fob.close()
 
-  if event.Ascii==96: #96 is the ascii value of the grave key (`)
-    fob.close()
-    new_hook.cancel()
+  if event.Ascii==96: exit(0);
 
 #instantiate HookManager class
 new_hook=pyxhook.HookManager()
