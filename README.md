@@ -29,5 +29,5 @@ based normalization where a known range can be reduced to [0,1].
 
 
 ##Contact
-AUTHORS:   Robert Morouney, David Rusu
-EMAILS:    robert@morouney.com, davidrusu.me@gmail.com
+- AUTHORS:   Robert Morouney, David Rusu
+- EMAILS:    robert@morouney.com, davidrusu.me@gmail.com
