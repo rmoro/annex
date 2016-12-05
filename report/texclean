@@ -1,0 +1,1 @@
+rm -f *-blx.bib *.bbl *.bcf *.blg *.run.xml *.out *.aux *.log *.toc

@@ -1,0 +1,7 @@
+#!/bin/sh
+pdflatex "$1.tex";
+biber $1;
+pdflatex "$1.tex";
+pdflatex "$1.tex";
+./texclean
+firefox "$1.pdf";

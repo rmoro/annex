@@ -13,7 +13,8 @@
 \usepackage{epigraph}
 \usepackage{listings}
 \usepackage{fancyhdr}
-\usepackage{cite}
+%\usepackage{cite}
+\usepackage{biblatex}
 %\usepackage{babel}
 
 \geometry{letterpaper}
@@ -29,6 +30,10 @@
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mylightgray}{rgb}{0.8,0.8,0.8}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+%\bibliography{bib}
+\addbibresource{bib.bib}
+
 
 \lstset{
 backgroundcolor=\color{white},
@@ -107,12 +112,13 @@ then turn them loose''}{ \textit{Mark Twain}}
 \section{A Brief Introduction to Authentication}
 \paragraph{}User authentication is conventionally defined as a the comparisson between supplied user credentials and those stored in a trusted location such as a database. \cite{AUTH1} 
 Though this model remains the standard it is far from perfect. 
-The main issue with key based authentication is the user themselves. \cite{BADUSER}. 
-This problem is lessened by methods such as two-factor authentication, finger-print and iris biometics but suffer from similar issues in users security.
+The main issues with key based authentication are the users themselves. \cite{BADUSER}. 
+This problem of security is lessened by methods such as two-factor authentication however the weight of the issue is still placed on the backs of the users which ultimately leads to the same problem.
+There are also biometric methods such as iris, fingerprint, or DNA scanning which do not rely on the users memory however as we will demonstrate in a later section, each of these methods suffer from their own complications.
 In this report we focus on a less common biometirc method known as keystroke authentication \cite{BIOKEY1}.   
 
 \paragraph{}For the past 3 years the ``Worldwide Threat Assessment of the US Intelligence Community'' \cite{US2014} \cite{US2015} \cite{US2016} has listed cyber threats as the top issue world security. 
-Identity theft \cite{IDENT1}, Ransomware\cite{SRANS1} and bank fraud are a collective trillion dollar industry \cite{IDENT1}.  
+Identity theft \cite{IDENT1}, Ransomware\cite{RANS1} and bank fraud\cite{BANK1} are a collective trillion dollar industry \cite{IDENT1}.  
 Despite all of this users often choose passwords out of convinence rather than fear.  
 In large password dumps the most common password is consistantly "12345678" and has been so for years. \cite{COMMONPASSWORD} 
 To combat this system administrators have required users 
@@ -295,7 +301,6 @@ print('Epoch {:2d} error {:3.1f}\%'.format(i + 1, 100 * incorrect))
 \section{Dynamic Authentication}
 \begin{lstlisting}[language=Python]
 current_keystrokes = load_keystrokes('./key_logging/keystroke.log')[-SEQ_LENGTH:]
-
 inp, out = [current_keystrokes], [[1,0]]
 result = sess.run(prediction,{data: inp}).mean(axis=0)
 if result[0] > result[1]:
@@ -304,11 +309,10 @@ else:
     print("Intruder with {:.2f}% confidence".format(result[1] * 100))
 print(result)
 
- --- can retrain model with this data --- 
 sess.run(minimize,{data: inp, target: out})
 print(sess.run(prediction,{data: [current_keystrokes]}).mean(axis=0))
 \end{lstlisting}
-
+\printbibliography
 \end{document}
 
 
