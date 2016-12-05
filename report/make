@@ -1,0 +1,5 @@
+#!/bin/sh
+pdflatex "$1.tex"
+pdflatex "$1.tex"
+./rmtex
+firefox "$1.pdf"
